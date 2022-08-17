@@ -1,20 +1,41 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Person } from "./utils/Person";
+import {
+	Entity,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	ManyToMany,
+	JoinTable,
+} from 'typeorm';
+import { Client } from './Client';
+import { Person } from './utils/Person';
 
-
-
-@Entity("banker")
+@Entity('banker')
 export class Banker extends Person {
+	@Column({
+		length: 10,
+		unique: true,
+	})
+	employee_number: string;
 
-    @Column({
-        unique: true,
-        length: 10
-    })
-    employee_number: string
+	@ManyToMany((type) => Client, {
+		cascade: true,
+	})
+	@JoinTable({
+		name: 'bankers_clients',
+		joinColumn: {
+			name: 'banker',
+			referencedColumnName: 'id',
+		},
+		inverseJoinColumn: {
+			name: 'client',
+			referencedColumnName: 'id',
+		},
+	})
+	clients: Client[];
 
-    @CreateDateColumn()
-    created_at: Date;
+	@CreateDateColumn()
+	created_at: Date;
 
-    @UpdateDateColumn()
-    updated_at: Date;
+	@UpdateDateColumn()
+	updated_at: Date;
 }
