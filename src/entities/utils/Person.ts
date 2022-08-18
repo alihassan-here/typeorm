@@ -1,11 +1,14 @@
-import { Entity, BaseEntity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-
-
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    BaseEntity,
+} from 'typeorm';
 
 @Entity()
 export class Person extends BaseEntity {
-    @PrimaryColumn()
-    id: number
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column()
     first_name: string;
@@ -14,24 +17,13 @@ export class Person extends BaseEntity {
     last_name: string;
 
     @Column({
-        unique: true
+        unique: true,
     })
-    email: string
+    email: string;
 
     @Column({
         unique: true,
-        length: 10
+        length: 10,
     })
     card_number: string;
-
-    @Column({
-        unique: true,
-        length: 10
-    })
-    employee_number: string
-
-    @Column({
-        type: 'numeric'
-    })
-    balance: number
 }
